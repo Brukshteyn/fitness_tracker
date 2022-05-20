@@ -106,21 +106,11 @@ def main(tranning: Tranning) -> None:
 
 def read_package(tranning_type : str,  package : List[int]) -> Tranning:
     if tranning_type == 'RUN':
-        return Running(action = package[0],
-                       duration = package[1],
-                       weight = package[2])
+        return Running(*package)
     if tranning_type == 'SWM':
-        return Swimming(action = package[0],
-                        duration = package[1],
-                        weight = package[2],
-                        length_pool = package[3],
-                        count_pool = package[4]
-                        )
+        return Swimming(*package)
     if tranning_type == 'WLK':
-        return SportsWalking(action = package[0],
-                             duration = package[1],
-                             weight = package[2],
-                             height = package[3])
+        return SportsWalking(*package)
 
 if __name__ == '__main__':
     packages = [

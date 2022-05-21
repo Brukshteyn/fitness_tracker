@@ -1,7 +1,13 @@
 from typing import Tuple, List
+from dataclasses import dataclass
 
-
+@dataclass
 class InfoMessage:
+    tranning_type: str
+    duration: float
+    distance: float
+    speed: float
+    calories: float
 
     MESSAGE = '''
     Тип тренировки: {tranning_type}; 
@@ -10,36 +16,24 @@ class InfoMessage:
     Ср. скорость: {speed} км/ч;
     Потрачено ккал: {calories}'''
 
-    def __init__(self,
-                 tranning_type : str,
-                 duration : float,
-                 distance : float,
-                 speed : float,
-                 calories : float) -> None:
-        self.tranning_type = tranning_type
-        self.duration = round(duration, 3)
-        self.distance = round(distance, 3)
-        self.speed = round(speed, 3)
-        self.calories = round(calories, 3)
 
     def get_info_message(self) -> str:
         return self.MESSAGE.format(tranning_type = self.tranning_type,
-                                   duration = self.duration,
-                                   distance = self.distance,
-                                   speed = self.speed,
-                                   calories = self.calories)
+                                   duration = round(self.duration, 3),
+                                   distance = round(self.distance, 3),
+                                   speed = round(self.speed, 3),
+                                   calories = round(self.calories, 3))
 
-
+@dataclass
 class Tranning:
 
     M_IN_KM = 1000
     LEN_STEP = 0.65
     NAME_TRANNING = 'noname'
 
-    def __init__(self, action : int, duration : int, weight : int) -> None:
-        self.action = action
-        self.duration = duration
-        self.weight = weight
+    action : int
+    duration : int
+    weight : int
 
     def get_distance(self) -> float:
         return (self.action * self.LEN_STEP) / self.M_IN_KM
@@ -57,16 +51,14 @@ class Tranning:
                            speed = self.get_mean_speed(),
                            calories = self.get_spent_calories())
 
-
+@dataclass
 class Swimming(Tranning):
+
+    length_pool : int
+    count_pool : int
 
     LEN_STEP = 1.38
     NAME_TRANNING = 'Плавание'
-
-    def __init__(self, action : int, duration : int, weight : int, length_pool : int, count_pool : int) -> None:
-        super().__init__(action, duration, weight)
-        self.length_pool = length_pool
-        self.count_pool = count_pool
 
     def get_spent_calories(self) -> float:
         coeff_calorie_1 = 2
@@ -75,21 +67,19 @@ class Swimming(Tranning):
     def get_mean_speed(self) -> float:
         return self.length_pool * self.count_pool / self.M_IN_KM / self.duration
 
-
+@dataclass
 class SportsWalking(Tranning):
 
-    NAME_TRANNING = 'Спортивная ходьба'
+    height: int
 
-    def __init__(self, action : int, duration : int, weight : int, height : int) -> None:
-        super().__init__(action, duration, weight)
-        self.height = height
+    NAME_TRANNING = 'Спортивная ходьба'
 
     def get_spent_calories(self) -> float:
         coeff_calorie_1 = 0.035
         coeff_calorie_2 = 0.029
         return (coeff_calorie_1 * self.weight + (self.get_mean_speed() ** 2 // self.height) * coeff_calorie_2) * self.duration
 
-
+@dataclass
 class Running(Tranning):
 
     NAME_TRANNING = 'Бег'

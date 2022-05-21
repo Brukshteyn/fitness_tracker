@@ -58,33 +58,37 @@ class Swimming(Tranning):
     count_pool : int
 
     LEN_STEP = 1.38
+    COEF_CALORIE_TO_SWIMMING = 2
 
     def get_spent_calories(self) -> float:
-        coeff_calorie_1 = 2
-        return (self.get_mean_speed() + 1.1) * coeff_calorie_1 * self.weight
+        return (self.get_mean_speed() + 1.1) * self.COEF_CALORIE_TO_SWIMMING * self.weight
 
     def get_mean_speed(self) -> float:
-        return self.length_pool * self.count_pool / self.M_IN_KM / self.duration
+        return self.length_pool * self.count_pool / self.M_IприменениеN_KM / self.duration
 
 @dataclass
 class SportsWalking(Tranning):
 
     height: int
 
+    COEF_CALORIE_TO_SWALK_WEIGHT = 0.035
+    COEF_CALORIE_TO_SWALK_BOOST = 0.029
+
     def get_spent_calories(self) -> float:
-        coeff_calorie_1 = 0.035
-        coeff_calorie_2 = 0.029
-        return (coeff_calorie_1 * self.weight + (self.get_mean_speed() ** 2 // self.height) * coeff_calorie_2) * self.duration
+
+        return (self.COEF_CALORIE_TO_SWALK_WEIGHT *
+                self.weight + (self.get_mean_speed() ** 2 // self.height) *
+                self.COEF_CALORIE_TO_SWALK_BOOST) * self.duration
 
 @dataclass
 class Running(Tranning):
 
-    NAME_TRANNING = 'Бег'
+    COEF_CALORIE_TO_RUN_SPEED_ONE = 18
+    COEF_CALORIE_TO_RUN_SPEED_TWO = 20
 
     def get_spent_calories(self) -> float:
-        coeff_calorie_1 = 18
-        coeff_calorie_2 = 20
-        return ((coeff_calorie_1 * self.get_mean_speed() - coeff_calorie_2 ) * self.weight) / self.M_IN_KM * self.duration
+        return ((self.COEF_CALORIE_TO_RUN_SPEED_ONE * self.get_mean_speed() - self.COEF_CALORIE_TO_RUN_SPEED_TWO) *
+                self.weight) / self.M_IN_KM * self.duration
 
 
 def main(tranning: Tranning) -> None:

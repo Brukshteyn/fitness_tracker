@@ -42,7 +42,7 @@ class Tranning:
         return self.get_distance() / self.duration
 
     def get_spent_calories(self) -> float:
-        pass
+        raise NotImplementedError('Method not implement')
 
     def show_training_info(self) -> InfoMessage:
         return InfoMessage(tranning_type = self.__class__.__name__,
@@ -64,7 +64,7 @@ class Swimming(Tranning):
         return (self.get_mean_speed() + 1.1) * self.COEF_CALORIE_TO_SWIMMING * self.weight
 
     def get_mean_speed(self) -> float:
-        return self.length_pool * self.count_pool / self.M_IприменениеN_KM / self.duration
+        return self.length_pool * self.count_pool / self.M_IN_KM / self.duration
 
 @dataclass
 class SportsWalking(Tranning):

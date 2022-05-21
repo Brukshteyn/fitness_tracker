@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class InfoMessage:
+
     tranning_type: str
     duration: float
     distance: float
@@ -29,7 +30,6 @@ class Tranning:
 
     M_IN_KM = 1000
     LEN_STEP = 0.65
-    NAME_TRANNING = 'noname'
 
     action : int
     duration : int
@@ -45,7 +45,7 @@ class Tranning:
         pass
 
     def show_training_info(self) -> InfoMessage:
-        return InfoMessage(tranning_type = self.NAME_TRANNING,
+        return InfoMessage(tranning_type = self.__class__.__name__,
                            duration = self.duration,
                            distance = self.get_distance(),
                            speed = self.get_mean_speed(),
@@ -58,7 +58,6 @@ class Swimming(Tranning):
     count_pool : int
 
     LEN_STEP = 1.38
-    NAME_TRANNING = 'Плавание'
 
     def get_spent_calories(self) -> float:
         coeff_calorie_1 = 2
@@ -71,8 +70,6 @@ class Swimming(Tranning):
 class SportsWalking(Tranning):
 
     height: int
-
-    NAME_TRANNING = 'Спортивная ходьба'
 
     def get_spent_calories(self) -> float:
         coeff_calorie_1 = 0.035
@@ -87,7 +84,7 @@ class Running(Tranning):
     def get_spent_calories(self) -> float:
         coeff_calorie_1 = 18
         coeff_calorie_2 = 20
-        return ((coeff_calorie_1 * self.get_mean_speed() - coeff_calorie_2 ) *self.weight) / self.M_IN_KM * self.duration
+        return ((coeff_calorie_1 * self.get_mean_speed() - coeff_calorie_2 ) * self.weight) / self.M_IN_KM * self.duration
 
 
 def main(tranning: Tranning) -> None:

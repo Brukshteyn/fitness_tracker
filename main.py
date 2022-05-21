@@ -1,4 +1,4 @@
-from typing import Tuple, List
+from typing import List
 from dataclasses import dataclass
 
 @dataclass
@@ -96,12 +96,15 @@ def main(tranning: Tranning) -> None:
     print(info.get_info_message())
 
 def read_package(tranning_type : str,  package : List[int]) -> Tranning:
-    if tranning_type == 'RUN':
-        return Running(*package)
-    if tranning_type == 'SWM':
-        return Swimming(*package)
-    if tranning_type == 'WLK':
-        return SportsWalking(*package)
+    ERROR_CURRENCY = 'tranning_type, ожидали - {reception}; пришло - {current}'
+    DIC_KIND_SPORTS = {'RUN' : Running,
+                       'SWM' : Swimming,
+                       'WLK' : SportsWalking}
+    try:
+        return DIC_KIND_SPORTS[tranning_type](*package)
+    except:
+        raise KeyError(ERROR_CURRENCY.format(current=tranning_type, reception=', '.join(DIC_KIND_SPORTS.keys())))
+
 
 if __name__ == '__main__':
     packages = [

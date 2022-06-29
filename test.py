@@ -53,8 +53,6 @@ class TestOutput:
     def get_bool_accuracy(self, current, standart, accuracy = 0.01):
         return abs((current / standart) - 1) < accuracy
 
-
-
 if __name__ == '__main__':
     TestOutput(standart_action,
                standart_duration,
